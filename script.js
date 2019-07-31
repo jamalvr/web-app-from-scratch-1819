@@ -11,9 +11,12 @@ let pokemonData = [];
 
 // Request
 const getPokemonData = function () {
+    let apiBaseUrl = 'https://pokeapi.co/api/v2';
+    let apiSubset = 'pokemon-species';
+
     for (let pokemonIndex = 1; pokemonIndex <= 5; pokemonIndex++) {
-        fetch('https://pokeapi.co/api/v2/pokemon-species/' + pokemonIndex)
-            .then(function (response, reject) {
+        fetch(apiBaseUrl + '/' + apiSubset + '/' + pokemonIndex)
+            .then(function (response) {
                 // Log status if you get a response that's not working
                 if (response.status !== 200) {
                     console.log('Woops, there is a problem with your pokemon. Status Code: ' + response.status);
@@ -25,29 +28,13 @@ const getPokemonData = function () {
             })
             .then(function (response) {
                 console.log(response);
+                pokemonData.push(response);
             })
-             .catch(function (error) {
-                 // Error handling in case of error
-                 console.log('No pokemon because of:', error);
-             });
+            .catch(function (error) {
+                // Error handling in case of error
+                console.log('No pokemon because of:', error);
+            });
     }
-    // .then(function (response) {
-
-    //     let pokemonDetailsUrl = response.pokemon_entries.map(function (pokemon_entry) {
-    //         return pokemon_entry.pokemon_species.url;
-    //     });
-    //     return pokemonDetailsUrl;
-    // })
-    // .then(function (pokemonDetailsUrl) {
-    //     console.log(pokemonDetailsUrl);
-
-    //     // Push data to global variable
-    //     pokemonData.push(pokemonDetailsUrl);
-    // })
-    // .catch(function (error) {
-    //     // Error handling in case of error
-    //     console.log('No pokemon because of:', error);
-    // });
 }
 
 const mapData = function () {
