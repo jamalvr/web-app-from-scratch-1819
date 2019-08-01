@@ -1,10 +1,8 @@
 // App start
-const app = {
-    init: function () {
-        getPokemonData();
-        console.log(pokemonData);
-    }
-}
+const app = new Promise(function (resolve, reject) {
+    getPokemonData();
+    createPokemonCards();
+});
 
 // Variable to store data in
 let pokemonData = [];
@@ -14,8 +12,8 @@ const getPokemonData = function () {
     let apiBaseUrl = 'https://pokeapi.co/api/v2';
     let apiSubset = 'pokemon-species';
 
-    for (let pokemonIndex = 1; pokemonIndex <= 5; pokemonIndex++) {
-        fetch(apiBaseUrl + '/' + apiSubset + '/' + pokemonIndex)
+    for (let pageIndex = 1; pageIndex <= 5; pageIndex++) {
+        fetch(apiBaseUrl + '/' + apiSubset + '/' + pageIndex)
             .then(function (response) {
                 // Log status if you get a response that's not working
                 if (response.status !== 200) {
@@ -36,6 +34,18 @@ const getPokemonData = function () {
             });
     }
 }
+
+// function for creating
+//! Dit werkt niet door timing issue 
+const createPokemonCards = function () {
+    console.log(pokemonData);
+    console.log(pokemonData.length);
+
+    // for (let i = 0; i < pokemonData.length; i++) {
+    //     let pokemon = pokemonData[i];
+    //     console.log(pokemon);
+    // }
+};
 
 const mapData = function () {
 
