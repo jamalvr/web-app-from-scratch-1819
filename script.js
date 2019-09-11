@@ -1,6 +1,7 @@
     //// Set global var
     // Set location for routie
     var globalPokemon;
+    
     if (location.hash == '') {
         location.hash = 'main';
     }
@@ -106,9 +107,9 @@
     };
 
     // Map pokemon
-    const sortPokemon = function () {
+    const sortPokemonBMI = function () {
         let sortedPokemon = globalPokemon.map(function (pokemon) {
-            // return pokemon.weight > 100
+            68 / Math.pow(1.65, 2)
         });
         createPokemonCards(sortedPokemon);
     };
@@ -117,6 +118,7 @@
     // Executes app when hash is 'main' -> is set globally at the top of the code
     routie('main', function () {
         app();
+        console.log(globalPokemon);
     });
 
     // Router for the specific pokemon pages
