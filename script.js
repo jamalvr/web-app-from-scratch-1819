@@ -1,7 +1,7 @@
     //// Set global var
     // Set location for routie
     var globalPokemon;
-    
+
     if (location.hash == '') {
         location.hash = 'main';
     }
@@ -59,6 +59,32 @@
         })
     };
 
+    //// Pokemon array edits
+    // Filter pokemon
+    const filterPokemon = function () {
+        let filteredPokemonData = globalPokemon.filter(function (pokemon) {
+            return pokemon.weight > 100
+        });
+        createPokemonCards(filteredPokemonData);
+    };
+
+    // Sort pokemon
+    const sortPokemonBMI = function () {
+
+    };
+
+    // Map pokemon
+    const mapPokemon = function () {
+        let mappedPokemonData = globalPokemon.map(function (pokemon) {
+            return {
+                name: pokemon.name,
+                sprite: pokemon.sprites.front_shiny,
+            }
+        });
+
+        globalPokemon = mappedPokemonData;
+    };
+
     //// Pokemon page templates
     // Pokemon overview page template
     const createPokemonCards = function (pokemonData) {
@@ -97,28 +123,10 @@
         pageContainer.innerHTML = template;
     };
 
-    //// Pokemon array edits
-    // Filter pokemon
-    const filterPokemon = function () {
-        let filteredPokemonData = globalPokemon.filter(function (pokemon) {
-            return pokemon.weight > 100
-        });
-        createPokemonCards(filteredPokemonData);
-    };
-
-    // Map pokemon
-    const sortPokemonBMI = function () {
-        let sortedPokemon = globalPokemon.map(function (pokemon) {
-            68 / Math.pow(1.65, 2)
-        });
-        createPokemonCards(sortedPokemon);
-    };
-
     //// Routers
     // Executes app when hash is 'main' -> is set globally at the top of the code
     routie('main', function () {
         app();
-        console.log(globalPokemon);
     });
 
     // Router for the specific pokemon pages
@@ -126,3 +134,5 @@
         let pokemon = globalPokemon[id];
         createPokemonPage(pokemon);
     });
+
+    console.log(globalPokemon);
