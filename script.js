@@ -1,11 +1,12 @@
     //// Set global var
-    // Set location for routie
     var globalPokemon;
 
-    if (location.hash == '') {
+    // Set base routie hash
+    if (location.hash === '') {
         location.hash = 'main';
     }
 
+    //// Core App flow
     const app = function () {
         if (window.localStorage.getItem('pokemon') === null) {
             getPokemonData()
@@ -15,6 +16,8 @@
 
                     // Store pokemonData in localStorage for future usage and to midigate the number of API requests with a page refresh
                     window.localStorage.setItem('pokemon', JSON.stringify(pokemonData));
+
+                    // Create pokemonCards based on pokemonData
                     createPokemonCards(pokemonData);
                 })
         } else {
@@ -62,27 +65,48 @@
     //// Pokemon array edits
     // Filter pokemon
     const filterPokemon = function () {
-        let filteredPokemonData = globalPokemon.filter(function (pokemon) {
-            return pokemon.weight > 100
-        });
-        createPokemonCards(filteredPokemonData);
+        console.log('Filterrrrrr');
+
+        let filterWeightButton = document.querySelector('.filter-weight');
+
+        filterWeightButton.addEventListener(click, function () {
+            let filteredPokemonData = globalPokemon.filter(function (pokemon) {
+                return pokemon.weight > 100;
+            });
+
+            createPokemonCards(filteredPokemonData);
+        })
     };
 
     // Sort pokemon
-    const sortPokemonBMI = function () {
+    // const sortPokemonBMI = function () {
 
-    };
+    // };
 
     // Map pokemon
-    const mapPokemon = function () {
-        let mappedPokemonData = globalPokemon.map(function (pokemon) {
-            return {
-                name: pokemon.name,
-                sprite: pokemon.sprites.front_shiny,
-            }
-        });
-
-        globalPokemon = mappedPokemonData;
+    const mapPokemon = function (viewType, pokemon) {
+        if (viewType === 'overview') {
+            let overviewData = pokemon.map(function (pokemon) {
+                return {
+                    name: pokemon.name,
+                    sprite: pokemon.sprites.front_shiny,
+                }
+            });
+            return overviewData;
+        }
+        if (viewType === 'detail') {
+            let detailData = pokemon.map(function (pokemon) {
+                return {
+                    name: pokemon.name,
+                    height: pokemon.height,
+                    weight: pokemon.weight,
+                }
+            });
+            return detailData;
+        } else {
+            console.log(viewType + ' Bestaat niet. Je data heeft geen specifieke map.');
+            return pokemon;
+        }
     };
 
     //// Pokemon page templates
@@ -135,4 +159,4 @@
         createPokemonPage(pokemon);
     });
 
-    console.log(globalPokemon);
+    console.log(mapPokemon('detail', globalPokemon));
