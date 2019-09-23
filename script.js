@@ -12,17 +12,18 @@
             getPokemonData()
                 .then(function (pokemonData) {
                     // Fill globalPokemon with pokemonData from the promise getPokemonData
-                    globalPokemon = pokemonData;
+                    globalPokemon = mapPokemon(pokemonData);
 
                     // Store pokemonData in localStorage for future usage and to midigate the number of API requests with a page refresh
-                    window.localStorage.setItem('pokemon', JSON.stringify(pokemonData));
+                    window.localStorage.setItem('pokemon', JSON.stringify(globalPokemon));
 
                     // Create pokemonCards based on pokemonData
-                    createPokemonCards(pokemonData);
+                    createPokemonCards();
                 })
         } else {
             globalPokemon = JSON.parse(window.localStorage.getItem('pokemon'));
-            createPokemonCards(globalPokemon);
+            console.log('localStorage data');
+            createPokemonCards();
         }
     };
 
@@ -79,50 +80,40 @@
     };
 
     // Sort pokemon
-    // const sortPokemonBMI = function () {
+    const sortPokemonBMI = function () {
 
-    // };
+    };
 
     // Map pokemon
-    const mapPokemon = function (viewType, pokemon) {
-        if (viewType === 'overview') {
-            let overviewData = pokemon.map(function (pokemon) {
-                return {
-                    name: pokemon.name,
-                    sprite: pokemon.sprites.front_shiny,
-                }
-            });
-            return overviewData;
-        }
-        if (viewType === 'detail') {
-            let detailData = pokemon.map(function (pokemon) {
-                return {
-                    name: pokemon.name,
-                    height: pokemon.height,
-                    weight: pokemon.weight,
-                }
-            });
-            return detailData;
-        } else {
-            console.log(viewType + ' Bestaat niet. Je data heeft geen specifieke map.');
-            return pokemon;
-        }
+    const mapPokemon = function (pokemon) {
+        return pokemon.map(function (pokemon) {
+            let pokeData = {
+                name: pokemon.name,
+                sprite: pokemon.sprites.front_shiny,
+                weight: pokemon.weight / 10,
+                height: pokemon.height / 10,
+            }
+
+            // Add BMI to pokedata object with right formula
+            pokeData.bmi = pokeData.weight / (pokeData.height * pokeData.height);
+            return pokeData;
+        });
     };
 
     //// Pokemon page templates
     // Pokemon overview page template
-    const createPokemonCards = function (pokemonData) {
+    const createPokemonCards = function () {
         const pageContainer = document.getElementById('page-content');
 
         // Clear innerHTML in case of coming back from the pokemonDetail page
         pageContainer.innerHTML = '';
 
         // Add template for each pokemon
-        for (let i = 0; i < pokemonData.length; i++) {
+        for (let i = 0; i < globalPokemon.length; i++) {
             let template = `
             <li class="pokemon-card">
-                <a href="#pokemon/` + i + `"><img src="${pokemonData[i].sprites.front_shiny}"></a>
-                <h2>${pokemonData[i].name}</h2>
+                <a href="#pokemon/` + i + `"><img src="${globalPokemon[i].sprite}"></a>
+                <h2>${globalPokemon[i].name}</h2>
             </li>
             `;
 
@@ -131,14 +122,15 @@
     };
 
     // Pokemon detail page template
-    const createPokemonPage = function (pokemon) {
+    const createPokemonPage = function (id) {
+        let pokemon = globalPokemon[id];
         const pageContainer = document.getElementById('page-content');
 
         // Removes already existing HTML en replaces it with a single template
         let template = `
             <a href="#main">Terug naar home</a><br/>
             <div class="pokemon-page">
-                <img src="${pokemon.sprites.front_shiny}">
+                <img src="${pokemon.sprite}">
                 <h2>${pokemon.name}</h2>
                 Mijn hoogte is: ${pokemon.height} en ik ben superdik, namelijk ${pokemon.weight}lb
             </div>
@@ -147,16 +139,18 @@
         pageContainer.innerHTML = template;
     };
 
+    //// Initialize data
+    app();
+
     //// Routers
     // Executes app when hash is 'main' -> is set globally at the top of the code
-    routie('main', function () {
-        app();
-    });
+    routie({
+        'main': function () {
+            createPokemonCards();
+        },
 
-    // Router for the specific pokemon pages
-    routie('pokemon/:id', function (id) {
-        let pokemon = globalPokemon[id];
-        createPokemonPage(pokemon);
+        // Router for the specific pokemon pages
+        'pokemon/:id': function (id) {
+            createPokemonPage(id);
+        }
     });
-
-    console.log(mapPokemon('detail', globalPokemon));
