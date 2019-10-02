@@ -1,36 +1,44 @@
-    //// Set global var
-    var globalPokemon;
+    ////// TODO: 
+    ////// TODO:
 
-    // Set base routie hash
-    if (location.hash === '') {
-        location.hash = 'main';
+    //// Set global var
+    let globalPokemon = [];
+
+    //// App structure
+    const app = function () {
+        dataReady()
+            .then(function () {
+                router();
+                sortPokemon();
+            })
     }
 
-    //// Core App flow
-    const app = function () {
-        if (window.localStorage.getItem('pokemon') === null) {
-            getPokemonData()
-                .then(function (pokemonData) {
-                    // Fill globalPokemon with pokemonData from the promise getPokemonData
-                    globalPokemon = mapPokemon(pokemonData);
+    //// Get data, if it's in localStorage or not
+    const dataReady = function () {
+        return new Promise(async function (resolve) {
+            if (window.localStorage.getItem('pokemon') === null) {
+                getPokemonData()
+                    .then(function (pokemonData) {
+                        // Fill globalPokemon with pokemonData from the promise getPokemonData
+                        globalPokemon = mapPokemon(pokemonData);
+                        console.log(pokemonData);
 
-                    // Store pokemonData in localStorage for future usage and to midigate the number of API requests with a page refresh
-                    window.localStorage.setItem('pokemon', JSON.stringify(globalPokemon));
-
-                    // Create pokemonCards based on pokemonData
-                    createPokemonCards();
-                })
-        } else {
-            globalPokemon = JSON.parse(window.localStorage.getItem('pokemon'));
-            console.log('localStorage data');
-            createPokemonCards();
-        }
+                        // Store pokemonData in localStorage for future usage and to midigate the number of API requests with a page refresh
+                        window.localStorage.setItem('pokemon', JSON.stringify(globalPokemon));
+                        resolve();
+                    });
+            } else {
+                globalPokemon = JSON.parse(window.localStorage.getItem('pokemon'));
+                console.log('localStorage data');
+                resolve();
+            }
+        });
     };
 
     //// Request loop
     const getPokemonData = function () {
         // Async + await to get data before executing following functions
-        return new Promise(async function (resolve, reject) {
+        return new Promise(async function (resolve) {
             let apiBaseUrl = 'https://pokeapi.co/api/v2';
             let apiSubset = 'pokemon';
             let pokemonData = [];
@@ -66,9 +74,9 @@
     //// Pokemon array edits
     // Filter pokemon
     const filterPokemon = function () {
-        console.log('Filterrrrrr');
+        console.log('Filter');
 
-        let filterWeightButton = document.querySelector('.filter-weight');
+        let filterWeightButton = document.querySelector('.filter-bmi');
 
         filterWeightButton.addEventListener(click, function () {
             let filteredPokemonData = globalPokemon.filter(function (pokemon) {
@@ -80,8 +88,26 @@
     };
 
     // Sort pokemon
-    const sortPokemonBMI = function () {
+    const sortPokemon = function () {
+        const sort = function (array, data) {
+            array.sort(function (a, b) {
+                return a[data] - b[data];
+            });
+        }
 
+        // Sort by BMI
+        let sortButton = document.querySelector('.filter-bmi');
+        sortButton.addEventListener('click', function () {
+            let sortedByBmi = sort(globalPokemon, 'bmi');
+            createPokemonCards(sortedByBmi);
+        });
+
+        // Sort by initial order from the pokedex
+        let resetButton = document.querySelector('.reset-bmi');
+        resetButton.addEventListener('click', function () {
+            let sortedByOrder = sort(globalPokemon, 'order');
+            createPokemonCards(sortedByOrder);
+        });
     };
 
     // Map pokemon
@@ -92,28 +118,32 @@
                 sprite: pokemon.sprites.front_shiny,
                 weight: pokemon.weight / 10,
                 height: pokemon.height / 10,
+                order: pokemon.order,
             }
 
             // Add BMI to pokedata object with right formula
-            pokeData.bmi = pokeData.weight / (pokeData.height * pokeData.height);
+            pokeData.bmi = Math.round(pokeData.weight / (pokeData.height * pokeData.height));
+
             return pokeData;
         });
     };
 
     //// Pokemon page templates
     // Pokemon overview page template
-    const createPokemonCards = function () {
+    const createPokemonCards = function (pokemon = globalPokemon) {
         const pageContainer = document.getElementById('page-content');
 
         // Clear innerHTML in case of coming back from the pokemonDetail page
         pageContainer.innerHTML = '';
 
+        console.log(pokemon);
+
         // Add template for each pokemon
-        for (let i = 0; i < globalPokemon.length; i++) {
+        for (let i = 0; i < pokemon.length; i++) {
             let template = `
             <li class="pokemon-card">
-                <a href="#pokemon/` + i + `"><img src="${globalPokemon[i].sprite}"></a>
-                <h2>${globalPokemon[i].name}</h2>
+                <a href="#pokemon/` + i + `"><img src="${pokemon[i].sprite}"></a>
+                <h2>${pokemon[i].name}</h2>
             </li>
             `;
 
@@ -139,18 +169,26 @@
         pageContainer.innerHTML = template;
     };
 
-    //// Initialize data
-    app();
-
     //// Routers
     // Executes app when hash is 'main' -> is set globally at the top of the code
-    routie({
-        'main': function () {
-            createPokemonCards();
-        },
-
-        // Router for the specific pokemon pages
-        'pokemon/:id': function (id) {
-            createPokemonPage(id);
+    const router = function () {
+        // Set base routie hash
+        if (location.hash === '') {
+            location.hash = 'main';
         }
-    });
+
+        // Router for home page & detailpage
+        routie({
+            'main': function () {
+                createPokemonCards();
+            },
+
+            // Router for the specific pokemon pages
+            'pokemon/:id': function (id) {
+                createPokemonPage(id);
+            }
+        });
+    }
+
+    //// Initialize data
+    app();

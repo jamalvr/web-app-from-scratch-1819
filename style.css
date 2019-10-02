@@ -4,7 +4,8 @@
     --spacing_default: 16px;
 
     /* Colors */
-    --color_primary: #000000;
+    --color_primary: #1c1c1c;
+    --color_secondary: #fafafa;
 
     /* Font size */
     --font-size_tiny: 0.8rem;
@@ -16,6 +17,8 @@
 
 body {
     font-size: var(--font-size_default);
+    background-color: var(--color_primary);
+    color: var(--color_secondary);
 }
 
 /* Reset styling */
