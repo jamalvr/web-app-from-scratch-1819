@@ -1,6 +1,3 @@
-    ////// TODO: 
-    ////// TODO:
-
     //// Set global var
     let globalPokemon = [];
 
@@ -95,18 +92,32 @@
             });
         }
 
-        // Sort by BMI
+        // Buttons
         let sortButton = document.querySelector('.filter-bmi');
+        let resetButton = document.querySelector('.reset-bmi');
+
+        // Sort by BMI
         sortButton.addEventListener('click', function () {
-            let sortedByBmi = sort(globalPokemon, 'bmi');
-            createPokemonCards(sortedByBmi);
+            if (!sortButton.classList.contains('active')) {
+                sortButton.classList.add('active');
+                resetButton.classList.remove('active');
+                let sortedByBmi = sort(globalPokemon, 'bmi');
+                createPokemonCards(sortedByBmi);
+            } else {
+                console.log('already sorted by BMI');
+            }
         });
 
         // Sort by initial order from the pokedex
-        let resetButton = document.querySelector('.reset-bmi');
         resetButton.addEventListener('click', function () {
-            let sortedByOrder = sort(globalPokemon, 'order');
-            createPokemonCards(sortedByOrder);
+            if (!resetButton.classList.contains('active')) {
+                resetButton.classList.add('active');
+                sortButton.classList.remove('active');
+                let sortedByOrder = sort(globalPokemon, 'order');
+                createPokemonCards(sortedByOrder);
+            } else {
+                console.log('already sorted by order');
+            }
         });
     };
 
