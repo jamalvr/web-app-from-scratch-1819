@@ -13,16 +13,31 @@
 	<body>
 		<header>
 			<h1>I know it's my destiny</h1>
-			<button class="filter-bmi">Dikke</button><br />
-			<button class="reset-bmi">Alles</button><br />
-			Etiam porta sem malesuada magna mollis euismod. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Maecenas sed diam eget risus varius blandit sit amet non magna. Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.
 		</header>
+
+		<div class="filter-menu">
+			<div class="filter-submenu">
+				<h3>Sorteer</h3>
+				<button class="sort-bmi">BMI sort</button>
+			</div>
+
+			<div class="filter-submenu">
+				<h3>Filter</h3>
+				<button class="filter-bmi">BMI filter</button>
+			</div>
+		</div>
 
 		<ul id="page-content" class="page-content">
 			<!-- Content gets rendered here -->
 		</ul>
-		<script src="routie.js"></script>
+
+		<!-- Standard assignement -->
+		<script src="libraries/routie.js"></script>
 		<script src="script.js"></script>
+
+		<!-- Greensock practise -->
+		<script src="libraries/tweenmax.min.js"></script>
+		<script src="greensock.js"></script>
 	</body>
 
 </html>
