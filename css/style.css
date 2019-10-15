@@ -9,8 +9,9 @@
 
     /* Colors */
     --color_primary: #1c1c1c;
-    --color_secondary: #fafafa;
-    --color_inactive: #d1d1d1;
+    --color_secondary: #2d2d2d;
+    --color_inactive: #1c1c1c;
+    --color_white: #fff;
 
     /* Font family */
     --font-family_body: sans-serif;
@@ -34,7 +35,7 @@ body {
     font-size: var(--font-size_default);
     font-family: var(--font-family_body);
     background-color: var(--color_primary);
-    color: var(--color_secondary);
+    color: var(--color_white);
     line-height: 1.4;
 }
 
@@ -51,26 +52,22 @@ a {
 button {
     display: inline-flex;
     padding: var(--spacing_default) var(--spacing_l);
-    border: 1px solid var(--color_secondary);
+    border: 1px solid var(--color_white);
     background-color: transparent;
-    color: var(--color_secondary);
+    color: var(--color_white);
     font-size: var(--font-size_l);
     cursor: pointer;
+    min-width: 180px;
+    margin-right: var(--spacing_default);
+    text-align: center;
+    border-radius: var(--radius-default);
 }
 
 button.active {
-    background-color: var(--color_secondary);
+    background-color: var(--color_white);
     color: var(--color_primary);
     cursor: auto;
     font-weight: bold;
-}
-
-button:first-child {
-    border-radius: var(--radius-default) 0 0 var(--radius-default);
-}
-
-button:last-child {
-    border-radius: 0 var(--radius-default) var(--radius-default) 0;
 }
 
 /* Reset styling */
@@ -83,7 +80,7 @@ ul.page-content {
 /* Pokemon overview grid styling */
 .page-content {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     grid-gap: var(--spacing_default);
 }
 
@@ -94,7 +91,7 @@ ul.page-content {
     justify-content: center;
     text-align: left;
 
-    color: var(--color_primary);
+    color: inherit;
     padding: var(--spacing_default);
     border-radius: var(--radius-default);
     background-color: var(--color_secondary);
@@ -121,13 +118,19 @@ ul.page-content {
     margin-right: var(--spacing_xs);
 }
 
-
 .pokemon-card img {
-    width: 100%;
-    height: auto;
+    height: 100%;
+    width: 150px;
 }
 
 .pokemon-card h2 {
     font-size: var(--font-size_default);
     margin: 0;
+}
+
+/* ////////// Greensock /////////// */
+#loader-container #loader-product,
+#loader-container #loader-besparen {
+    position: relative;
+    z-index: 0;
 }
