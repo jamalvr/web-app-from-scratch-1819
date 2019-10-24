@@ -49,25 +49,28 @@ const createTemplate = {
     overview: function () {
         // Empty view
         this.pageContainer.innerHTML = '';
+
+        // Generate menu
         this.menu();
+
+        // Add everything the list needs to have
         this.list.classList.add('content');
         this.pageContainer.appendChild(this.list);
         this.card();
     },
-    // Of een empty view functie maken
-    // Of een losse page template view maken
 
     page: function (id) {
         let pokemon = state.globalPokemon[id];
-        // const pageContainer = document.getElementById('page-content');
 
         // Removes already existing HTML en replaces it with a single template
         let template = `
-        <a href="#main">Terug naar home</a><br/>
         <div class="pokemon-page">
-            <img src="${pokemon.sprite}">
-            <h2>${pokemon.name}</h2>
-            Mijn hoogte is: ${pokemon.height} en ik ben superdik, namelijk ${pokemon.weight}lb
+            <a class="button button-back" href="#main">Terug naar home</a>
+            <div class="pokemon-details">
+                <img src="${pokemon.sprite}">
+                <h2>${pokemon.name}</h2>
+                <p>Mijn hoogte is: ${pokemon.height} en ik ben superdik, namelijk ${pokemon.weight}lb</p>
+            </p>
         </div>
         `;
 
