@@ -32,7 +32,7 @@ const toggleMenu = {
                 return pokemon.bmi > 20;
             });
         }
-
+        console.log(sorted);
         createTemplate.card(sorted);
     },
 

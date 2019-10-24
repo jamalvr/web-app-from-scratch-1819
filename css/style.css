@@ -71,14 +71,14 @@ button.active {
 }
 
 /* Reset styling */
-ul.page-content {
+ul.content {
     padding: 0;
     margin: var(--spacing_l) 0;
     list-style-type: none;
 }
 
 /* Pokemon overview grid styling */
-.page-content {
+.content {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     grid-gap: var(--spacing_default);

@@ -133,7 +133,7 @@
                 });
             }
 
-            createTemplate.card(sorted);
+            createTemplate.cardOverview(sorted);
         },
 
         init: function () {
@@ -204,7 +204,7 @@
         // Router for home page & detailpage
         routie({
             'main': function () {
-                createTemplate.card();
+                createTemplate.cardOverview();
             },
 
             // Router for the specific pokemon pages

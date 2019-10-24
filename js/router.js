@@ -11,7 +11,7 @@ const router = function () {
     // Router for home page & detailpage
     routie({
         'main': function () {
-            createTemplate.card();
+            createTemplate.overview();
         },
 
         // Router for the specific pokemon pages

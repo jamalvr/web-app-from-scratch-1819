@@ -1,5 +1,3 @@
-import state from './state.js';
-
 const helper = {
     sort: function (array, data) {
         return array.sort(function (a, b) {
