@@ -5,11 +5,14 @@ Object literals zorgen voor meer structuur en een duidelijke scheiding tussen fu
 
 In de code vind je relatief nieuwe methodes zoals template literals, promises en async functions. Om de juiste pokemonData op te halen is het nodig om meerdere requests te doen. Om te voorkomen dat er timing issues ontstaan, is het extra belangrijk eerst de data op te halen. Met veel pijn en moeite ben ik achter `await` gekomen.
 
-![Screenshot Pokemon page overview](img/screenshot_overview.png)
+![Screenshot Pokemon page overview](screenshot_overview.png)
+
+# Dependencies
+- routie.js
 
 ## Hoe werkt de app?
 ### Actor Diagram
-Komt hier nog
+![Screenshot Pokemon page overview](actor_diagram.png)
 
 ### Interaction Diagram
-Komt hier nog
+![Screenshot Pokemon page overview](interaction_diagram.png)
