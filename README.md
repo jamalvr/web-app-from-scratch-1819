@@ -12,7 +12,7 @@ In de code vind je relatief nieuwe methodes zoals template literals, promises en
 
 ## Hoe werkt de app?
 ### Actor Diagram
-![Screenshot Pokemon page overview](actor_diagram.PNG)
+![Screenshot Pokemon page overview](actor_diagram.png)
 
 ### Interaction Diagram
-![Screenshot Pokemon page overview](interaction_diagram.PNG)
+![Screenshot Pokemon page overview](interaction_diagram.png)
