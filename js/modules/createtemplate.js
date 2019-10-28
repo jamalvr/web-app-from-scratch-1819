@@ -1,5 +1,5 @@
 import state from './state.js';
-import toggleMenu from './toggleMenu.js';
+import toggleMenu from './togglemenu.js';
 
 const createTemplate = {
     pageContainer: document.getElementById('page-content'),
